@@ -1,6 +1,14 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import { Form, FormGroup, FormControl, Row, Col } from "react-bootstrap";
+import {
+  Form,
+  FormGroup,
+  FormControl,
+  Row,
+  Col,
+  Button
+} from "react-bootstrap";
+import callDate from "functions/callDate";
 
 const SearchBarWrapper = styled.div`
   width: 100%;
@@ -12,11 +20,21 @@ const SearchBarWrapper = styled.div`
   }
 `;
 
+const ButtonHolder = styled.div`
+  display: flex;
+  justify-content: center;
+
+  button {
+    margin: 15px;
+  }
+`;
+
 class SearchBar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      input: ""
+      input: "",
+      notes: ""
     };
   }
   handleChange = e => {
@@ -29,8 +47,10 @@ class SearchBar extends Component {
   handleSubmit = e => {
     e.preventDefault();
     const { saveFood } = this.props;
-    const { input } = this.state;
-    saveFood(input);
+    const { input, notes } = this.state;
+    const date = callDate();
+    const foodInput = { food: input, date, notes };
+    saveFood(foodInput);
     this.setState({
       input: ""
     });
@@ -51,6 +71,10 @@ class SearchBar extends Component {
                 />
               </FormGroup>
             </Form>
+            <ButtonHolder>
+              <Button>ADD NOTES</Button>
+              <Button>SEE DATA</Button>
+            </ButtonHolder>
           </SearchBarWrapper>
         </Col>
       </Row>
